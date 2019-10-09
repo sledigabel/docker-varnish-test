@@ -1,0 +1,19 @@
+---
+version: "3"
+services:
+  web:
+    image: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./site:/usr/share/nginx/html
+  varnish:
+    image: varnish
+    ports:
+      - "80:80"
+    tmpfs:
+      - /usr/local/var/varnish
+    links:
+      - web
+    volumes:
+      - "./default.vcl:/etc/varnish/default.vcl:ro"
